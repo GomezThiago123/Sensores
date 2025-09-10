@@ -1,0 +1,61 @@
+Explicación del programa ESP32 (WiFi + POST)
+
+El programa tiene como objetivo conectar un ESP32 a una red WiFi y enviar datos de un sensor hacia un servidor mediante solicitudes HTTP de tipo POST en formato JSON.
+
+Librerías utilizadas
+Se incluyen dos librerías principales:
+
+WiFi.h: permite conectar el ESP32 a una red WiFi.
+
+HTTPClient.h: facilita el envío de datos a través de solicitudes HTTP (como POST o GET).
+
+Configuración de credenciales y servidor
+Se definen las credenciales de la red WiFi (nombre y contraseña) y la dirección del servidor al que se enviarán los datos. También se declara un pin del ESP32 que simula un sensor (por ejemplo, un termómetro).
+
+Proceso de inicialización (setup)
+
+Se configura el pin del sensor como entrada.
+
+Se inicia la comunicación serial para poder mostrar mensajes en la consola y depurar el programa.
+
+El ESP32 intenta conectarse a la red WiFi usando el nombre y la contraseña configurados.
+
+Mientras no se logre la conexión, se imprime un punto en la consola cada medio segundo.
+
+Una vez conectado, se muestra en pantalla la dirección IP asignada al ESP32 dentro de la red.
+
+Ejecución continua (loop)
+
+El ciclo principal se repite cada 3 segundos.
+
+Primero se verifica si el ESP32 sigue conectado al WiFi.
+
+Si está conectado:
+
+Se establece una conexión HTTP con el servidor configurado.
+
+Se prepara un encabezado indicando que la información se enviará en formato JSON.
+
+Se lee un valor desde el pin del sensor (representa una medición, por ejemplo de temperatura o luz).
+
+Con ese valor se construye un mensaje JSON con dos campos: el nombre del sensor y el valor medido.
+
+Ese mensaje se envía al servidor mediante una solicitud POST.
+
+El programa muestra en la consola el código de respuesta que devuelve el servidor (200 significa éxito, 400 o 500 indican errores).
+
+Finalmente, se cierra la conexión HTTP para liberar recursos.
+
+Si no hay conexión WiFi, se imprime el mensaje “Desconectado”.
+
+Mejoras respecto a la primera versión
+
+Se corrigió un error en la escritura de INPUT (antes estaba como IMPUT).
+
+Se definió correctamente el pin del sensor, que antes no estaba declarado.
+
+En lugar de enviar siempre un valor fijo, ahora se manda el dato real leído desde el sensor.
+
+Se organizó la construcción del mensaje JSON para que se adapte dinámicamente al valor del sensor.
+
+En conclusión, este programa permite al ESP32 actuar como un dispositivo IoT que mide datos desde un sensor y los envía automáticamente a un servidor cada cierto intervalo de tiempo, todo gestionado a través de una red WiFi.
